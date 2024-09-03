@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Vinculando o arquivo CSS -->
+    <link rel="stylesheet" href="exemplo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <title>Mini Pong Multiplayer</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        canvas {
+            border: 5px solid rgb(0, 132, 127);
+        }
+    </style>
+</head>
+<body>
+    <i class="fas fa-arrow-circle-left arrow-icon" onclick="window.location.href='pagina1.html';" ></i>
+    <canvas id="pongCanvas" width="800" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById("pongCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Dimensões do jogo
+        const paddleWidth = 10;
+        const paddleHeight = 75;
+        const ballRadius = 10;
+
+        // Estado inicial
+        let leftPaddleY = (canvas.height - paddleHeight) / 2;
+        let rightPaddleY = (canvas.height - paddleHeight) / 2;
+        let ballX = canvas.width / 2;
+        let ballY = canvas.height / 2;
+        let ballSpeedX = 5;
+        let ballSpeedY = 5;
+
+        // Controles
+        const keys = {
+            w: false,
+            s: false,
+            ArrowUp: false,
+            ArrowDown: false
+        };
+
+        document.addEventListener("keydown", (e) => {
+            keys[e.key] = true;
+        });
+
+        document.addEventListener("keyup", (e) => {
+            keys[e.key] = false;
+        });
+
+        function movePaddles() {
+            if (keys.w && leftPaddleY > 0) {
+                leftPaddleY -= 7;
+            }
+            if (keys.s && leftPaddleY < canvas.height - paddleHeight) {
+                leftPaddleY += 7;
+            }
+            if (keys.ArrowUp && rightPaddleY > 0) {
+                rightPaddleY -= 7;
+            }
+            if (keys.ArrowDown && rightPaddleY < canvas.height - paddleHeight) {
+                rightPaddleY += 7;
+            }
+        }
+
+        function moveBall() {
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            // Colisão com a parede superior/inferior
+            if (ballY + ballRadius > canvas.height || ballY - ballRadius < 0) {
+                ballSpeedY = -ballSpeedY;
+            }
+
+            // Colisão com as raquetes
+            if (ballX - ballRadius < paddleWidth && ballY > leftPaddleY && ballY < leftPaddleY + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            if (ballX + ballRadius > canvas.width - paddleWidth && ballY > rightPaddleY && ballY < rightPaddleY + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            // Reiniciar a bola se sair da tela (pontuação)
+            if (ballX - ballRadius < 0 || ballX + ballRadius > canvas.width) {
+                ballX = canvas.width / 2;
+                ballY = canvas.height / 2;
+                ballSpeedX = -ballSpeedX;
+            }
+        }
+
+        function drawPaddles() {
+            ctx.fillStyle = "#DAA520";
+            ctx.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
+            ctx.fillRect(canvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = "#DAA520";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            movePaddles();
+            moveBall();
+
+            drawPaddles();
+            drawBall();
+        }
+
+        setInterval(draw, 1000 / 60); // Desenha a cada ~16ms (60 FPS)
+    </script>
+</body>
+</html>
