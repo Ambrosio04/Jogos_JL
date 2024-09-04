@@ -16,11 +16,11 @@
 
 .arrow-icon {
     color: gold;
-    font-size: 50px; /* Define o tamanho do ícone */
+    font-size: 50px; 
     position: absolute;
-    top: 10px; /* Define a distância do topo */
-    left: 10px; /* Define a distância da esquerda */
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    top: 10px; 
+    left: 10px; 
+    cursor: pointer; 
 }
 
 .tituloInicial {

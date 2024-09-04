@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Vinculando o arquivo CSS -->
-    <link rel="stylesheet" href="exemplo.css">
+    <link rel="stylesheet" href="../css/exemplo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <title>Mini Pong Multiplayer</title>
@@ -32,7 +32,7 @@
         // Dimensões do jogo
         const paddleWidth = 10;
         const paddleHeight = 75;
-        const ballRadius = 10;
+        const ballRadius = 12;
 
         // Estado inicial
         let leftPaddleY = (canvas.height - paddleHeight) / 2;
@@ -41,6 +41,10 @@
         let ballY = canvas.height / 2;
         let ballSpeedX = 5;
         let ballSpeedY = 5;
+
+        // Placar
+        let player1Points = 0;
+        let player2Points = 0;
 
         // Controles
         const keys = {
@@ -92,10 +96,15 @@
             }
 
             // Reiniciar a bola se sair da tela (pontuação)
-            if (ballX - ballRadius < 0 || ballX + ballRadius > canvas.width) {
+            if (ballX - ballRadius < 0) {
+                console.log("primeiro");
+            }
+            
+            if (ballX + ballRadius > canvas.width) {
                 ballX = canvas.width / 2;
                 ballY = canvas.height / 2;
                 ballSpeedX = -ballSpeedX;
+                console.log("segundo");
             }
         }
 
