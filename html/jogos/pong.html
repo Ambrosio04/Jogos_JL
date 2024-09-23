@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Vinculando o arquivo CSS -->
     <link rel="stylesheet" href="../css/exemplo.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <title>Mini Pong Multiplayer</title>
     <style>
         body {
             margin: 0;
@@ -20,10 +18,23 @@
         canvas {
             border: 5px solid rgb(0, 132, 127);
         }
+        .scoreboard {
+            position: absolute;
+            top: 10px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            font-size: 24px;
+            color: #DAA520;
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 <body>
-    <i class="fas fa-arrow-circle-left arrow-icon" onclick="window.location.href='pagina1.html';" ></i>
+    <div class="scoreboard">
+        <span id="player1Score">0</span> - <span id="player2Score">0</span>
+    </div>
+    <i class="fas fa-arrow-circle-left arrow-icon" onclick="window.location.href='../home.html';" ></i>
     <canvas id="pongCanvas" width="800" height="400"></canvas>
     <script>
         const canvas = document.getElementById("pongCanvas");
@@ -62,6 +73,13 @@
             keys[e.key] = false;
         });
 
+        function resetBall() {
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballSpeedX = -ballSpeedX;
+            ballSpeedY = 5 * (Math.random() > 0.5 ? 1 : -1); // Aleatoriza a direção vertical
+        }
+
         function movePaddles() {
             if (keys.w && leftPaddleY > 0) {
                 leftPaddleY -= 7;
@@ -89,23 +107,33 @@
             // Colisão com as raquetes
             if (ballX - ballRadius < paddleWidth && ballY > leftPaddleY && ballY < leftPaddleY + paddleHeight) {
                 ballSpeedX = -ballSpeedX;
+                const deltaY = ballY - (leftPaddleY + paddleHeight / 2);
+                ballSpeedY = deltaY * 0.35; // Ajusta a direção da bola dependendo de onde ela bateu na raquete
             }
 
             if (ballX + ballRadius > canvas.width - paddleWidth && ballY > rightPaddleY && ballY < rightPaddleY + paddleHeight) {
                 ballSpeedX = -ballSpeedX;
+                const deltaY = ballY - (rightPaddleY + paddleHeight / 2);
+                ballSpeedY = deltaY * 0.35;
             }
 
-            // Reiniciar a bola se sair da tela (pontuação)
+            // Pontuação e reset da bola
             if (ballX - ballRadius < 0) {
-                console.log("primeiro");
+                player2Points++;
+                updateScore();
+                resetBall();
             }
             
             if (ballX + ballRadius > canvas.width) {
-                ballX = canvas.width / 2;
-                ballY = canvas.height / 2;
-                ballSpeedX = -ballSpeedX;
-                console.log("segundo");
+                player1Points++;
+                updateScore();
+                resetBall();
             }
+        }
+
+        function updateScore() {
+            document.getElementById('player1Score').textContent = player1Points;
+            document.getElementById('player2Score').textContent = player2Points;
         }
 
         function drawPaddles() {
