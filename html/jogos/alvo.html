@@ -1,0 +1,68 @@
+<div style="background-color: black;">
+    <canvas width="1800" height="920"></canvas>
+</div>
+
+<script>
+
+    var tela = document.querySelector("canvas");
+    var pincel = tela.getContext("2d");
+    var color = document.querySelector("input");
+    var ray = 20;
+    var targetWidth = randomTarget(1800);
+    var targetHeight = randomTarget(920);
+
+    pincel.fillStyle = 'black';
+    pincel.fillRect(0, 0, 1800, 920);
+
+    function randomTarget(n) {
+        return Math.round(Math.random() * n);
+    }
+
+    function screenClear() {
+        pincel.clearRect(0, 0, 1800, 920);
+        pincel.fillStyle = 'black';
+        pincel.fillRect(0, 0, 1800, 920);
+    }
+
+    function targetAtualization() {
+
+        screenClear();
+
+        targetWidth = randomTarget(1800);
+        targetHeight = randomTarget(920);
+
+        target(targetWidth, targetHeight);
+
+    }
+
+    function circle(x, y, ray, color) {
+
+        pincel.fillStyle = color;
+        pincel.beginPath();
+        pincel.arc(x, y, ray, 0, 2 * Math.PI);
+        pincel.fill();
+
+    };
+
+    function target(targetWidth, targetHeight) {
+        circle(targetWidth, targetHeight, ray + 20, "gold");
+        circle(targetWidth, targetHeight, ray + 10, "lightblue");
+        circle(targetWidth, targetHeight, ray, "gold");
+    }
+
+    function shot(evento) {
+        var x = evento.pageX - tela.offsetLeft;
+        var y = evento.pageY - tela.offsetTop;
+
+        if ((x > targetWidth - ray) && (x < targetWidth + ray) &&
+            (y > targetHeight - ray) && (y < targetHeight + ray)) {
+            alert("Acertou miseravel!");
+        }
+
+    }
+
+    tela.onclick = shot;
+
+    setInterval(targetAtualization, 500);
+
+</script>

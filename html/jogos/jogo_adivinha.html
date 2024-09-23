@@ -1,0 +1,44 @@
+<meta charset="UTF-8">
+<script>
+
+    function pularLinha() {
+        document.write("<br><br>");
+    }
+
+    function texto(texto) {
+        alert(texto);
+        pularLinha();
+    }
+
+    function sorteia(n) {
+        return Math.round(Math.random() * n);
+    }
+
+    var numeroPensado = sorteia(10);
+    console.log(numeroPensado);
+    var chances = 1;
+
+    while (chances <= 3) {
+        var chute = parseInt(prompt("Faça um chute para descobrir o número: "));
+
+        if (chute == numeroPensado) {
+            texto("Você acertou!!");
+            window.location.href = "../home.html";
+            break;
+        } else if (chute > numeroPensado) {
+            texto("Seu chute foi alto, o número era menor!");
+        } else {
+            texto("Seu chute foi baixo, o número era maior!");
+        }
+
+        if (chances == 3) {
+            texto("O número que eu estava pensando é: " + numeroPensado);
+            window.location.href = "../home.html";
+        }
+        texto("Lhe restavam " + ( 3 - chances) + " tentativas");
+
+        chances++;
+
+    }
+
+</script>
