@@ -1,5 +1,5 @@
 <div style="background-color: black;">
-    <canvas width="1800" height="920"></canvas>
+    <canvas width="1350" height="590"></canvas>
 </div>
 
 <script>
@@ -8,28 +8,28 @@
     var pincel = tela.getContext("2d");
     var color = document.querySelector("input");
     var ray = 20;
-    var targetWidth = randomTarget(1800);
-    var targetHeight = randomTarget(920);
+    var targetWidth = randomTarget(1350);
+    var targetHeight = randomTarget(590);
 
     pincel.fillStyle = 'black';
-    pincel.fillRect(0, 0, 1800, 920);
+    pincel.fillRect(0, 0, 1350, 590);
 
     function randomTarget(n) {
         return Math.round(Math.random() * n);
     }
 
     function screenClear() {
-        pincel.clearRect(0, 0, 1800, 920);
+        pincel.clearRect(0, 0, 1350, 590);
         pincel.fillStyle = 'black';
-        pincel.fillRect(0, 0, 1800, 920);
+        pincel.fillRect(0, 0, 1350, 590);
     }
 
     function targetAtualization() {
 
         screenClear();
 
-        targetWidth = randomTarget(1800);
-        targetHeight = randomTarget(920);
+        targetWidth = randomTarget(1350);
+        targetHeight = randomTarget(590);
 
         target(targetWidth, targetHeight);
 
